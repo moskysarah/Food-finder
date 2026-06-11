@@ -7,7 +7,7 @@ export interface Meal {
   description: string;
 }
 
-export type MealType = 'burger' | 'pizza' | 'sushi' | 'asian' | 'mexican' | 'italian' | 'dessert' | 'healthy';
+export type MealType = 'burger' | 'pizza' | 'sushi' | 'asian' | 'mexican' | 'italian' | 'dessert' | 'healthy' | 'poulet' | 'viande'| 'pate'| 'shawarma'| 'cheese';
 
 export const mealTypeLabels: Record<MealType, string> = {
   burger: '🍔 Burger',
@@ -18,6 +18,11 @@ export const mealTypeLabels: Record<MealType, string> = {
   italian: '🍝 Italian',
   dessert: '🍰 Dessert',
   healthy: '🥗 Healthy',
+  poulet: '🍗 Poulet',
+  viande: '🍖 Viande',
+  pate: '🍜 Pâtes',
+  cheese: '🧀 Cheese',
+  shawarma: '🥙 Shawarma'
 };
 
 export const mealTypeColors: Record<MealType, string> = {
@@ -29,6 +34,11 @@ export const mealTypeColors: Record<MealType, string> = {
   italian: 'bg-emerald-500',
   dessert: 'bg-pink-500',
   healthy: 'bg-lime-500',
+  poulet: 'bg-amber-500',
+  pate:'bg-cyan-500',
+  viande:'bg-rose-500',
+  shawarma:'bg-violet-500',
+  cheese: 'bg-yellow-500'
 };
 
 // Mock data for testing
@@ -112,6 +122,50 @@ export const mockMeals: Meal[] = [
     location: 'Napoli - Vieux Port',
     image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&q=80',
     description: 'Pizza authentique avec tomate, mozzarella et basilic frais'
+  }
+  ,
+  {
+    id: 11,
+    name: 'Coca',
+    type: 'poulet',
+    location: 'Napoli - Vieux Port',
+    image: 'https://i.pinimg.com/1200x/d8/e1/1a/d8e11a9356e347cb5e1c9c7215911d67.jpg',
+    description: 'Poulet authentique avec tomate, et choux'
+  }
+  ,
+  {
+    id: 12,
+    name: 'Poulet Barbecue',
+    type: 'poulet',
+    location: 'Kinshasa - Kasavubu',
+    image: 'https://i.pinimg.com/736x/1a/9b/6e/1a9b6ed12a4d877dbf69f7a1cf93e1c2.jpg',
+    description: 'Poulet grillé , avec feuille de laurié frais'
+  }
+
+   ,
+  {
+    id: 13,
+    name: 'Plat au complet',
+    type: 'viande',
+    location: 'Kinshasa - Lemba',
+    image: 'https://i.pinimg.com/1200x/af/f8/e5/aff8e576798a9f0e47716e4507a16077.jpg',
+    description: 'Plat viande , frites '
+  },
+  {
+    id: 14,
+    name: 'Crispy frites',
+    type: 'cheese',
+    location: 'Kinshasa - Lemba',
+    image: 'https://i.pinimg.com/736x/95/0d/9b/950d9b6fb679cf160aea27b0f50a9ec3.jpg',
+    description: 'Plat viande , frites '
+  } ,
+  {
+    id: 15,
+    name: 'Spaghetti haitien',
+    type: 'pate',
+    location: 'Kinshasa - Lemba',
+    image: 'https://i.pinimg.com/1200x/f0/7e/0d/f07e0de98edfae25bcae5e0128d8e702.jpg',
+    description: 'Authentique spaghetti haitien '
   }
 ];
 
