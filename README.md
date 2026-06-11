@@ -32,8 +32,8 @@ Voici les technos principales au cœur de Food-Finder :
 
 Voici un aperçu visuel de l'application :
 
-<p align="center">
-  <img src="src/assets/food finder.png" alt="Rendu de Food Finder" width="80%">
+<p align="left">
+  <img src="src/assets/food finder.png" alt="Rendu de Food Finder" width="100%">
 </p>
 
 ---
