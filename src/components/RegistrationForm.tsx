@@ -53,10 +53,10 @@ export default function RegistrationForm({ onRegister }: RegistrationFormProps) 
           <div className="logo-container">
             <span className="logo-emoji">🍴</span>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
+          <h1 className="text-4xl font-bold text-[#ff6f58] mb-2 drop-shadow-lg">
             Swipe Food
           </h1>
-          <p className="text-white/80 text-lg">Discover your next favorite meal!</p>
+          <p className="text-black/100 text-lg">Discover your next favorite meal!</p>
         </div>
 
         {/* Form */}

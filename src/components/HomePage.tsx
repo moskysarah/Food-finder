@@ -21,7 +21,7 @@ export default function HomePage({ onLoginClick }: HomePageProps) {
 
       {/* Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
-        <div className="flex-1 flex items-end justify-center px-6 pb-92">
+        <div className="flex-1 flex items-end justify-center px-6 pb-98">
           <div className="w-full max-w-md text-center">
             <h1 className="text-white text-5xl md:text-6xl font-extrabold drop-shadow">
               Food Finder
