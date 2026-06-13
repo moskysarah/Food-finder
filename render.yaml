@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: food-finder
+    env: static
+    buildCommand: npm run build
+    publishDir: dist
+    routes:
+      - type: rewrite
+        src: /*
+        dest: /index.html
