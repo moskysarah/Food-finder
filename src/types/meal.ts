@@ -1,18 +1,23 @@
 
-
 export interface Meal {
   id: number;
   name: string;
+  description?: string; 
+  ingredients?: string[];
   type: MealType;
   restaurantName: string;
   location: {
     address: string;
-    distance: number; // Distance en km par rapport à l'utilisateur
+    distance: number;
+    coordinates: {     // 👈 Parfaitement placé !
+      lat: number;
+      lng: number;
+    };
   };
-  priceRange: 1 | 2 | 3; // 1 = Bon marché ($), 2 = Moyen ($$), 3 = Premium ($$$)
-  images: string[]; // Tableau d'images pour le défilement horizontal style Tinder
+  priceRange: 1 | 2 | 3;
+  images: string[];
   description: string;
-  ingredients?: string[]; // Utile pour afficher des badges ou filtrer les allergies
+  ingredients?: string[];
 }
 
 export type MealType = 'burger' | 'pizza' | 'sushi' | 'asian' | 'mexican' | 'italian' | 'dessert' | 'healthy' | 'poulet' | 'viande' | 'pate' | 'shawarma' | 'cheese';
@@ -49,14 +54,14 @@ export const mealTypeColors: Record<MealType, string> = {
   cheese: 'bg-yellow-500'
 };
 
-// Données de test (Mock Data) nettoyées et enrichies
+// 👈 Données de test mises à jour avec les "coordinates" obligatoires
 export const mockMeals: Meal[] = [
   {
     id: 1,
     name: 'Classic Burger',
     type: 'burger',
     restaurantName: 'Burger King',
-    location: { address: 'Centre Commercial', distance: 1.2 },
+    location: { address: 'Centre Commercial', distance: 1.2, coordinates: { lat: 48.8566, lng: 2.3522 } },
     priceRange: 1,
     images: [
       'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800&q=80',
@@ -70,7 +75,7 @@ export const mockMeals: Meal[] = [
     name: 'Pepperoni Pizza',
     type: 'pizza',
     restaurantName: 'Pizza Hut',
-    location: { address: 'Rue Principale', distance: 2.4 },
+    location: { address: 'Rue Principale', distance: 2.4, coordinates: { lat: 48.8606, lng: 2.3412 } },
     priceRange: 2,
     images: [
       'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=800&q=80',
@@ -84,7 +89,7 @@ export const mockMeals: Meal[] = [
     name: 'Salmon Sushi Platter',
     type: 'sushi',
     restaurantName: 'Sushi World',
-    location: { address: 'Quartier Japon', distance: 3.1 },
+    location: { address: 'Quartier Japon', distance: 3.1, coordinates: { lat: 48.8526, lng: 2.3612 } },
     priceRange: 3,
     images: [
       'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=800&q=80'
@@ -97,7 +102,7 @@ export const mockMeals: Meal[] = [
     name: 'Pad Thai aux Crevettes',
     type: 'asian',
     restaurantName: 'Bangkok Street',
-    location: { address: 'Avenue des Arts', distance: 0.8 },
+    location: { address: 'Avenue des Arts', distance: 0.8, coordinates: { lat: 48.8416, lng: 2.3312 } },
     priceRange: 2,
     images: [
       'https://images.unsplash.com/photo-1559314809-0d155014e29e?w=800&q=80'
@@ -110,7 +115,7 @@ export const mockMeals: Meal[] = [
     name: 'Tacos Mexicains',
     type: 'mexican',
     restaurantName: 'El Mexico',
-    location: { address: 'Place du Village', distance: 4.2 },
+    location: { address: 'Place du Village', distance: 4.2, coordinates: { lat: 48.8716, lng: 2.3212 } },
     priceRange: 1,
     images: [
       'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&q=80'
@@ -123,7 +128,7 @@ export const mockMeals: Meal[] = [
     name: 'Pâtes Carbonara',
     type: 'italian',
     restaurantName: 'Le Dolce Vita',
-    location: { address: 'Rue de la Gare', distance: 1.7 },
+    location: { address: 'Rue de la Gare', distance: 1.7, coordinates: { lat: 48.8316, lng: 2.3712 } },
     priceRange: 2,
     images: [
       'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=800&q=80'
@@ -136,7 +141,7 @@ export const mockMeals: Meal[] = [
     name: 'Cheesecake Coulis Rouge',
     type: 'dessert',
     restaurantName: 'Sweet Dream',
-    location: { address: 'Centre Ville', distance: 2.1 },
+    location: { address: 'Centre Ville', distance: 2.1, coordinates: { lat: 48.8216, lng: 2.3112 } },
     priceRange: 1,
     images: [
       'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=800&q=80'
@@ -149,7 +154,7 @@ export const mockMeals: Meal[] = [
     name: 'Bowl Poké Saumon',
     type: 'healthy',
     restaurantName: 'Green Life',
-    location: { address: 'Boulevard Santé', distance: 0.5 },
+    location: { address: 'Boulevard Santé', distance: 0.5, coordinates: { lat: 48.8816, lng: 2.3912 } },
     priceRange: 2,
     images: [
       'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80'
@@ -162,7 +167,7 @@ export const mockMeals: Meal[] = [
     name: 'Double Cheeseburger',
     type: 'burger',
     restaurantName: "McDonald's",
-    location: { address: 'Zone Industrielle', distance: 5.0 },
+    location: { address: 'Zone Industrielle', distance: 5.0, coordinates: { lat: 48.8916, lng: 2.3812 } },
     priceRange: 1,
     images: [
       'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=800&q=80'
@@ -175,7 +180,7 @@ export const mockMeals: Meal[] = [
     name: 'Pizza Margherita',
     type: 'pizza',
     restaurantName: 'Napoli',
-    location: { address: 'Vieux Port', distance: 3.5 },
+    location: { address: 'Vieux Port', distance: 3.5, coordinates: { lat: 48.8116, lng: 2.3012 } },
     priceRange: 1,
     images: [
       'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&q=80'
@@ -188,7 +193,7 @@ export const mockMeals: Meal[] = [
     name: 'Poulet Croustillant Choux',
     type: 'poulet',
     restaurantName: 'Chicken Express',
-    location: { address: 'Avenue de la Paix', distance: 2.8 },
+    location: { address: 'Avenue de la Paix', distance: 2.8, coordinates: { lat: -4.325, lng: 15.322 } },
     priceRange: 1,
     images: [
       'https://i.pinimg.com/1200x/d8/e1/1a/d8e11a9356e347cb5e1c9c7215911d67.jpg'
@@ -201,7 +206,7 @@ export const mockMeals: Meal[] = [
     name: 'Poulet Barbecue',
     type: 'poulet',
     restaurantName: 'Chez Maman Nicole',
-    location: { address: 'Kinshasa - Kasavubu', distance: 4.5 },
+    location: { address: 'Kinshasa - Kasavubu', distance: 4.5, coordinates: { lat: -4.331, lng: 15.311 } },
     priceRange: 2,
     images: [
       'https://i.pinimg.com/736x/1a/9b/6e/1a9b6ed12a4d877dbf69f7a1cf93e1c2.jpg'
@@ -214,7 +219,7 @@ export const mockMeals: Meal[] = [
     name: 'Plat Complet Viande',
     type: 'viande',
     restaurantName: 'Le Grillardeur',
-    location: { address: 'Kinshasa - Lemba', distance: 1.1 },
+    location: { address: 'Kinshasa - Lemba', distance: 1.1, coordinates: { lat: -4.362, lng: 15.352 } },
     priceRange: 2,
     images: [
       'https://i.pinimg.com/1200x/af/f8/e5/aff8e576798a9f0e47716e4507a16077.jpg'
@@ -227,7 +232,7 @@ export const mockMeals: Meal[] = [
     name: 'Crispy Frites & Cheese',
     type: 'cheese',
     restaurantName: 'Snack Elégance',
-    location: { address: 'Kinshasa - Lemba', distance: 0.9 },
+    location: { address: 'Kinshasa - Lemba', distance: 0.9, coordinates: { lat: -4.365, lng: 15.359 } },
     priceRange: 1,
     images: [
       'https://i.pinimg.com/736x/95/0d/9b/950d9b6fb679cf160aea27b0f50a9ec3.jpg'
@@ -240,7 +245,7 @@ export const mockMeals: Meal[] = [
     name: 'Spaghetti Haïtien',
     type: 'pate',
     restaurantName: 'Lakay Resto',
-    location: { address: 'Kinshasa - Lemba', distance: 1.4 },
+    location: { address: 'Kinshasa - Lemba', distance: 1.4, coordinates: { lat: -4.361, lng: 15.351 } },
     priceRange: 2,
     images: [
       'https://i.pinimg.com/1200x/f0/7e/0d/f07e0de98edfae25bcae5e0128d8e702.jpg'
