@@ -16,8 +16,6 @@ export interface Meal {
   };
   priceRange: 1 | 2 | 3;
   images: string[];
-  description: string;
-  ingredients?: string[];
 }
 
 export type MealType = 'burger' | 'pizza' | 'sushi' | 'asian' | 'mexican' | 'italian' | 'dessert' | 'healthy' | 'poulet' | 'viande' | 'pate' | 'shawarma' | 'cheese';
