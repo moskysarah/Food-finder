@@ -7,6 +7,9 @@ import MatchModal from "./components/MatchModal";
 import FilterPanel, { type FilterState } from "./components/FilterPanel";
 import "./index.css";
 
+// Importation propre du nouveau logo sur fond noir
+import logoFoodFinder from "./assets/logologo.png";
+
 type View = "home" | "auth" | "app";
 
 const RESTAURANT_NAMES = [
@@ -17,7 +20,7 @@ const RESTAURANT_NAMES = [
 function App() {
   const [isRegistered, setIsRegistered] = useState<boolean | null>(null);
   
-  // 1. 👈 ÉTATS POUR LES INFOS DE L'UTILISATEUR CONNECTÉ
+  // États pour les infos de l'utilisateur connecté
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [showProfile, setShowProfile] = useState(false); // Gère l'affichage du volet profil
@@ -37,7 +40,7 @@ function App() {
     selectedTypes: Object.keys(mealTypeLabels) as MealType[]
   });
 
-  // 2. 👈 CHARGEMENT DES INFOS DE L'UTILISATEUR DEPUIS LOCALSTORAGE
+  // Chargement des infos de l'utilisateur depuis localStorage
   useEffect(() => {
     const registered = localStorage.getItem("isRegistered");
     const storedName = localStorage.getItem("userName");
@@ -55,6 +58,7 @@ function App() {
     setView("home");
   }, []);
 
+  // Chargement des données de l'API avec géolocalisation
   useEffect(() => {
     if (view !== "app") return;
 
@@ -76,16 +80,36 @@ function App() {
             const allRawMeals = results.flatMap(result => result.meals || []);
 
             if (allRawMeals.length > 0) {
-              const structuredMeals: Meal[] = allRawMeals.map((m: any, index: number) => {
-                const types: MealType[] = ["burger", "pizza", "sushi", "healthy"];
+              type MealDbMeal = {
+                idMeal: string | number;
+                strMeal: string;
+                strMealThumb?: string | null;
+                strIngredient1?: string | null;
+                strIngredient2?: string | null;
+                strIngredient3?: string | null;
+              };
+
+              // Déclaration de "types" pour corriger l'erreur de variable manquante
+              const types = Object.keys(mealTypeLabels) as MealType[];
+
+              const structuredMeals: Meal[] = allRawMeals.map((m: MealDbMeal, index: number) => {
                 const mealType = types[index % types.length];
                 const distance = parseFloat((Math.random() * 4.5 + 0.3).toFixed(1));
                 const restaurantName = RESTAURANT_NAMES[index % RESTAURANT_NAMES.length];
 
+                // Nettoyage et typage strict des ingrédients requis par TypeScript (string[])
+                const cleanedIngredients = [m.strIngredient1, m.strIngredient2, m.strIngredient3]
+                  .filter((ing): ing is string => typeof ing === "string" && ing.trim() !== "");
+
+                // Nettoyage des images
+                const cleanedImages = [m.strMealThumb, m.strMealThumb]
+                  .filter((img): img is string => typeof img === "string" && img.trim() !== "");
+
                 return {
-                  id: m.idMeal,
+                  // Conversion en Number() pour résoudre l'erreur d'assignation de l'ID
+                  id: Number(m.idMeal),
                   name: m.strMeal,
-                  images: [m.strMealThumb, m.strMealThumb], 
+                  images: cleanedImages.length > 0 ? cleanedImages : ["https://placehold.co/600x400?text=No+Image"], 
                   type: mealType,
                   priceRange: (index % 3 + 1) as 1 | 2 | 3,
                   restaurantName: restaurantName,
@@ -97,7 +121,7 @@ function App() {
                       lng: longitude + (Math.random() - 0.5) * 0.02
                     }
                   },
-                  ingredients: [m.strIngredient1, m.strIngredient2, m.strIngredient3].filter(Boolean)
+                  ingredients: cleanedIngredients
                 };
               });
 
@@ -133,7 +157,6 @@ function App() {
 
   const handleRegister = (name: string) => {
     setUserName(name);
-    // Optionnel : Si ton formulaire renvoie aussi l'email, tu le stockes ici.
     const mockEmail = `${name.toLowerCase().replace(/\s+/g, '')}@example.com`;
     setUserEmail(mockEmail);
     localStorage.setItem("userEmail", mockEmail);
@@ -159,15 +182,15 @@ function App() {
     setMatchedMeal(null);
   };
 
-  // 3. 👈 FONCTION DE DÉCONNEXION (LOGOUT)
+  // Fonction de déconnexion (Logout)
   const handleLogout = () => {
-    localStorage.clear(); // Vide le stockage local
+    localStorage.clear();
     setIsRegistered(false);
     setUserName("");
     setUserEmail("");
     setLikedMeals([]);
     setShowProfile(false);
-    setView("home"); // Retourne à la page de présentation
+    setView("home");
   };
 
   if (isRegistered === null || isLoadingMeals) {
@@ -195,12 +218,14 @@ function App() {
       <header className="border-transparent shadow-xl sticky top-0 z-40 bg-neutral-900/40 backdrop-blur-md">
         <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+            {/* Utilisation dynamique de ton nouveau logo sur fond noir */}
             <img
-                src="src/assets/food_finder_logo-removebg-preview.png"
-                alt="logo"
-                title="food finder"
-                width={120}
-                height={120}
+              src={logoFoodFinder}
+              alt="logo"
+              title="food finder"
+              width={120}
+              height={120}
+              className="object-contain"
             />
           </h1>
           <div className="flex items-center gap-3">
@@ -225,7 +250,7 @@ function App() {
                 </span>
               )}
             </button>
-            {/* 👈 BOUTON AVATAR PROFIL */}
+            {/* BOUTON AVATAR PROFIL */}
             <button
               onClick={() => { setShowProfile(!showProfile); setShowLikes(false); }}
               className="w-9 h-9 rounded-full bg-gradient-to-tr from-orange-500 to-red-500 text-white font-bold text-sm flex items-center justify-center shadow-md hover:scale-105 transition-transform"
@@ -240,7 +265,7 @@ function App() {
       {/* Main Content */}
       <main className="p-4 max-w-md mx-auto">
         
-        {/* 4. 👈 INTERFACE DU PROFIL UTILISATEUR */}
+        {/* INTERFACE DU PROFIL UTILISATEUR */}
         {showProfile ? (
           <div className="bg-zinc-900 rounded-3xl p-6 border border-zinc-800 shadow-2xl animate-fade-in space-y-6">
             <div className="text-center space-y-2">
@@ -317,7 +342,7 @@ function App() {
               <div className="space-y-4">
                 {likedMeals.map((meal) => (
                   <div key={meal.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden shadow-md flex">
-                    <img src={meal.images[0]} alt={meal.name} className="w-24 h-24 object-cover" />
+                    <img src={meal.images[0] || ""} alt={meal.name} className="w-24 h-24 object-cover" />
                     <div className="p-3 flex-1 min-w-0">
                       <h3 className="font-bold text-white truncate text-sm">{meal.name}</h3>
                       <p className="text-xs text-orange-400 truncate">🏪 {meal.restaurantName}</p>
