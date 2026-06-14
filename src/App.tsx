@@ -196,7 +196,7 @@ function App() {
         <div className="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-2xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
             <img
-                src="/food_finder_logo-removebg-preview.png"
+                src="src/assets/food_finder_logo-removebg-preview.png"
                 alt="logo"
                 title="food finder"
                 width={120}
